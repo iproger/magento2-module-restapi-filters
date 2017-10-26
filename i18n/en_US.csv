@@ -1,1 +1,2 @@
-"Filter class must be an instance of ","Filter class must be an instance of "
+"Filter class must be an instance of %1.","Filter class must be an instance of %1."
+"Constant FILTER_PARAMETER is not defined on subclass %1.","Constant FILTER_PARAMETER is not defined on subclass %1."

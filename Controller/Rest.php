@@ -2,27 +2,22 @@
 
 namespace SpringImport\RestApiFilters\Controller;
 
-use Magento\Framework\Webapi\Authorization;
+use Magento\Framework\App\DeploymentConfig;
+use Magento\Framework\Config\ConfigOptionsListConstants;
 use Magento\Framework\Exception\AuthorizationException;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Webapi\Authorization;
 use Magento\Framework\Webapi\ErrorProcessor;
-use Magento\Framework\Webapi\Request;
-use Magento\Framework\Webapi\ServiceInputProcessor;
-use Magento\Framework\Webapi\ServiceOutputProcessor;
 use Magento\Framework\Webapi\Rest\Request as RestRequest;
 use Magento\Framework\Webapi\Rest\Response as RestResponse;
-//use Magento\Framework\Webapi\Rest\Response\FieldsFilter;
-use Magento\Store\Model\Store;
+use Magento\Framework\Webapi\ServiceInputProcessor;
+use Magento\Framework\Webapi\ServiceOutputProcessor;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Webapi\Controller\PathProcessor;
 use Magento\Webapi\Controller\Rest\ParamsOverrider;
 use Magento\Webapi\Controller\Rest\Router;
-use Magento\Webapi\Controller\Rest\Router\Route;
 use Magento\Webapi\Model\Rest\Swagger\Generator;
-use Magento\Framework\App\DeploymentConfig;
-use Magento\Framework\Config\ConfigOptionsListConstants;
 use SpringImport\RestApiFilters\Filter\AbstractFilter;
-use SpringImport\RestApiFilters\Filter\AbstractFieldsFilter;
-use Magento\Framework\Exception\LocalizedException;
 use SpringImport\RestApiFilters\Filter\FieldsFilter;
 
 /**
@@ -133,6 +128,8 @@ class Rest extends \Magento\Webapi\Controller\Rest
                 $outputData = $this->applyFilter($filterClassName, $outputData);
             }
         }
+        echo '<pre>';
+        print_r($outputData);exit;
         $header = $this->getDeploymentConfig()->get(ConfigOptionsListConstants::CONFIG_PATH_X_FRAME_OPT);
         if ($header) {
             $this->_response->setHeader('X-Frame-Options', $header);
@@ -151,11 +148,7 @@ class Rest extends \Magento\Webapi\Controller\Rest
         $filter = $this->_objectManager->create($filterClassName);
 
         if (!$filter instanceof AbstractFilter) {
-            throw new LocalizedException(
-                __(
-                    'Filter class must be an instance of ' . AbstractFilter::class
-                )
-            );
+            throw new LocalizedException(__('Filter class must be an instance of %1.', AbstractFilter::class));
         }
 
         return $filter->filter($outputData);

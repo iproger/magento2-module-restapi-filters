@@ -3,18 +3,19 @@
 namespace SpringImport\RestApiFilters\Filter;
 
 use Magento\Framework\Webapi\Rest\Request as RestRequest;
+use Magento\Framework\Exception\LocalizedException;
 
 abstract class AbstractFieldsFilter extends AbstractFilter
 {
     /**
      * Initialize dependencies
      * @param RestRequest $request
-     * @throws \Exception
+     * @throws LocalizedException
      */
     public function __construct(RestRequest $request)
     {
         if (!defined('static::FILTER_PARAMETER')) {
-            throw new \Exception('Constant FILTER_PARAMETER is not defined on subclass ' . get_class($this));
+            throw new LocalizedException(__('Constant FILTER_PARAMETER is not defined on subclass %1.', get_class($this)));
         }
 
         parent::__construct($request);
