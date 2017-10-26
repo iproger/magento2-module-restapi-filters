@@ -128,8 +128,6 @@ class Rest extends \Magento\Webapi\Controller\Rest
                 $outputData = $this->applyFilter($filterClassName, $outputData);
             }
         }
-        echo '<pre>';
-        print_r($outputData);exit;
         $header = $this->getDeploymentConfig()->get(ConfigOptionsListConstants::CONFIG_PATH_X_FRAME_OPT);
         if ($header) {
             $this->_response->setHeader('X-Frame-Options', $header);
